@@ -1,0 +1,76 @@
+
+
+/*************************** General Settings *********************************/
+
+
+/******************************************************************************/
+
+/********************************* HEADER *************************************/
+
+header {
+  text-align: center;
+}
+
+.wrapper {
+  margin: 0 5%;
+  border: 3px solid black;
+}
+
+hr {
+  margin: 2.5% 0;
+}
+/******************************************************************************/
+
+
+/********************************* GAME Window ********************************/
+
+.game-window, .fighter-choice, #player1-Div, #player2-Div, .middle  {
+  display: flex;
+}
+
+/*Form*/
+
+.fighter-choice {
+  justify-content:flex-start;
+}
+
+.fighter-choice > * {
+  margin: 30px 15px 0;
+}
+
+select {
+  width: 150px;
+}
+
+/*/Form*/
+
+.game-window {
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+/*Player div*/
+
+#player1-Div, #player2-Div {
+  flex-direction: column;
+  text-align: center;
+}
+
+.middle {
+  flex-direction: column;
+  text-align: center;
+}
+
+.middle h4 {
+  font-size: 1.5em;
+  color: red;
+}
+
+/*Output div*/
+
+#outputDiv {
+  width: 95%;
+  height: 60px;
+  margin: 20px auto;
+  border: 2px solid black;
+}
