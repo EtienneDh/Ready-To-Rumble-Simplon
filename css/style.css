@@ -12,7 +12,7 @@ header {
 }
 
 .wrapper {
-  margin: 0 5%;
+  margin: 0 5% 1em;
   border: 3px solid black;
 }
 
@@ -66,11 +66,26 @@ select {
   color: red;
 }
 
+.fight {
+  color: red;
+  padding: 15px 10px;
+  border: 2px solid red;
+  transition-property: color;
+  transition-duration: 2s;
+  transition-delay: 0;
+  transition-timing-function:linear;
+  cursor: pointer;
+}
+
+.fight:hover {
+  color: darkred;
+}
+
 /*Output div*/
 
 #outputDiv {
   width: 95%;
-  height: 60px;
+  height: 80px;
   margin: 20px auto;
   border: 2px solid black;
 }
