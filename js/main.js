@@ -1,5 +1,9 @@
 /*Ready To Rumble*/
 
+/******************************************************************************/
+/***************************** DATA FUNCTIONS *********************************/
+/******************************************************************************/
+
 // Figther constructor
 function Fighter(name, health, damagePerAttack, special, avatar) {
     this.name = name;
@@ -26,10 +30,15 @@ fightersFunctionSet = function() {
 
 // round global var
 roundNum = 0;
+// printMsg container
+txt= '';
+
+/***************************** /DATA FUNCTIONS ********************************/
 
 /******************************************************************************/
+/******************************* DOM ELEMENTS *********************************/
+/******************************************************************************/
 
-// DOM elements
 
 domElementsFunctionSet = function() {
     /* Player Div's */
@@ -52,24 +61,46 @@ domElementsFunctionSet = function() {
 };
 
 
+/******************************* /DOM ELEMENTS ********************************/
+
+
+/******************************************************************************/
+/****************************** GAME FUNCTIONS ********************************/
 /******************************************************************************/
 
-// Game Functions
+
 
 // Interface builder & refresher
 refreshDomElement = function(domElement, modification) {
     return domElement.text(modification);
 };
 
+// Compute dmg and trigger printMsg
+function attack(attack, defense, domElement) {
+    var minDmg = Math.floor(attack.damagePerAttack * 0.85);
+    var dmg = randomIntFromInterval(minDmg, attack.damagePerAttack);
+    defense.health -= dmg;
+    refreshDomElement(domElement, defense.health);
+    txt = printMsg(attack, defense, dmg);
+    return txt;
+}
+
 // Print result of rounds
-printMsg = function(attacker, defenser) {
-  return attacker.name + ' hits ' + defenser.name + ' for ' + "<span id='hitdmg'>" + attacker.damagePerAttack + '</span>' + ' damages \!';
+printMsg = function(attacker, defenser, dmg) {
+    return attacker.name + ' hits ' + defenser.name + ' for ' + "<span id='hitdmg'>" + dmg + '</span>' + " damages!";
 };
 
 // Keep $outputDiv at bottom
 stickToBottom = function() {
-  var element = document.getElementById('outputDiv');
-  element.scrollTop = element.scrollHeight;
+    var element = document.getElementById('outputDiv');
+    element.scrollTop = element.scrollHeight;
+};
+
+// Resolve game
+resolve = function(winner) {
+    clearTimeout(timer);
+    roundNum = 0;
+    alert(winner.name + ' has won !!');
 };
 
 // Get a random number from interval
@@ -111,13 +142,19 @@ windowBuilder = function() {
     fightersList(fightersArray.sort());
 };
 
+/***************************** /GAME FUNCTIONS ********************************/
+
+
+/******************************************************************************/
+/***************************** Main Program ***********************************/
+/******************************************************************************/
+
 
 // The function run loads selected fighters
 function run() {
     // Get selected fighter by user
     var player1 = document.getElementById("f-l-1").value;
     var player2 = document.getElementById("f-l-2").value;
-
     // match value with corresponding objects (fighters) & refresh elements with players' info
     for (var i = 0; i < fightersArray.length; i++) {
         if (fightersArray[i].name.toLowerCase() == player1) {
@@ -126,7 +163,6 @@ function run() {
             $player1ADisplay.attr('src', fightersArray[i].avatar);
             // Clone player 1
             var assignPlayer1 = $.extend(true, {}, fightersArray[i]);
-
         }
         if (fightersArray[i].name.toLowerCase() == player2) {
             refreshDomElement($player2NameDisplay, fightersArray[i].name);
@@ -160,37 +196,29 @@ function fight() {
     round();
 }
 
-
 // The function Round() resolves each fighting round, print results and call itself with a delay. Stop when 1 players dies
 function round() {
-    var txt = '';
     // Check for players life
     if (player1.health <= 0 || player2.health <= 0) {
-        clearTimeout(timer);
-        alert('fight over');
+        var winner;
+        player1.health <= 0 ? winner = player2 : winner = player1;
+        resolve(winner);
+        return;
     }
 
-    roundFight = function() {
+    var roundFight = function() {
         // Check round number to define attackers/ defenser
         if (roundNum % 2 === 0) {
             if (player1.hasOwnProperty('start')) {
-                txt = printMsg(player1, player2);
-                player2.health -= player1.damagePerAttack;
-                refreshDomElement($player2HpDisplay, player2.health);
+                attack(player1, player2, $player2HpDisplay);
             } else {
-                txt = printMsg(player2, player1);
-                player1.health -= player2.damagePerAttack;
-                refreshDomElement($player1HpDisplay, player1.health);
+                attack(player2, player1, $player1HpDisplay);
             }
         } else {
             if (player1.hasOwnProperty('start')) {
-                txt = printMsg(player2, player1);
-                player1.health -= player2.damagePerAttack;
-                refreshDomElement($player1HpDisplay, player1.health);
+                attack(player2, player1, $player1HpDisplay);
             } else {
-                txt = printMsg(player1, player2);
-                player2.health -= player1.damagePerAttack;
-                refreshDomElement($player2HpDisplay, player2.health);
+                attack(player1, player2, $player2HpDisplay);
             }
         }
         $outputDiv.append('<br>' + txt);
@@ -203,6 +231,7 @@ function round() {
     timer = setTimeout(roundFight, 2500);
 }
 
+/**************************** /Main Program ***********************************/
 
 // On load
 $(document).ready(function() {
