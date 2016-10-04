@@ -88,4 +88,9 @@ select {
   height: 80px;
   margin: 20px auto;
   border: 2px solid black;
+  overflow: auto;
+}
+
+#hitdmg {
+  color: red;
 }
