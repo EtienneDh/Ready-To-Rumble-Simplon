@@ -25,7 +25,7 @@ fightersFunctionSet = function() {
     totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Totor.png');
     crispy = new Fighter('Crispy', 100, 16, 'Axe Throw', 'img/Crispy.png');
     chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
-
+    // Store fighters into array
     fightersArray = [ryan, aaron, totor, chuck, xavier, crispy];
 };
 
@@ -159,11 +159,14 @@ function attack(attack, defense, domElement) {
         dmg *= 3;
         optionalMsg = ' Critical Hit !!';
     }
+    // Remove damage from defenser's health
     defense.health -= dmg;
-
+    // Display new Hp to the screen
     refreshDomElement(domElement, 'HP: ' + defense.health);
+    // Pick up random hit sound and play it
     var sound = hitEffects[randomIntFromInterval(0, 2)];
     sound.play();
+    // Format message
     txt = printMsg(attack, defense, dmg, optionalMsg);
     return txt;
 }
@@ -171,15 +174,20 @@ function attack(attack, defense, domElement) {
 // Resolve game
 resolve = function(winner, loser) {
     clearTimeout(timer);
+    // remove any pics already stored in overlay
     $('.overlay').empty();
     roundNum = 0;
+    // Set up final msg + winner avatar
     $finalMsg = $('<h1 style="color:white"></h1>');
     $finalMsgAvatar = $('<img>');
     $finalMsgAvatar.attr('src', winner.avatar);
     $finalMsg.append(winner.name + ' has won !');
+    // Append msg & avatar to overlay
     $('.overlay').append($finalMsg);
     $('.overlay').append($finalMsgAvatar);
+    // End fight music
     finalSound.play();
+    // Display overlay
     $('.overlay').show(1000).delay(4000).hide(1000);
 };
 
@@ -199,6 +207,7 @@ function run() {
     // match value with corresponding objects (fighters) & refresh elements with players' info
     for (var i = 0; i < fightersArray.length; i++) {
         if (fightersArray[i].name.toLowerCase() == player1) {
+            // Display selected fighters information
             refreshDomElement($player1NameDisplay, fightersArray[i].name);
             refreshDomElement($player1HpDisplay, 'HP: ' + fightersArray[i].health);
             $player1ADisplay.attr('src', fightersArray[i].avatar);
@@ -206,6 +215,7 @@ function run() {
             var assignPlayer1 = $.extend(true, {}, fightersArray[i]);
         }
         if (fightersArray[i].name.toLowerCase() == player2) {
+            // Display selected fighters information
             refreshDomElement($player2NameDisplay, fightersArray[i].name);
             refreshDomElement($player2HpDisplay, 'HP: ' + fightersArray[i].health);
             $player2ADisplay.attr('src', fightersArray[i].avatar);
@@ -255,19 +265,21 @@ function round() {
     }
     // Display damaged avatar if player health < 50 %
     if (player1.health <= (player1.maxHealth) / 2) {
+        // Edit avatar source to point to damaged one
         var src = player1.avatar.split('.');
         src = src[0] + '-dmg.' + src[1];
         $player1ADisplay.attr('src', src);
     }
 
     if (player2.health <= (player2.maxHealth) / 2) {
+        // Edit avatar source to point to damaged one
         var src = player2.avatar.split('.');
         src = src[0] + '-dmg.' + src[1];
         $player2ADisplay.attr('src', src);
     }
 
     var roundFight = function() {
-        // Check round number to define attackers/ defenser
+        // Check round number to define attackers/ defenser. attack() resolves each turn, then avatar blinks
         if (roundNum % 2 === 0) {
             if (player1.hasOwnProperty('start')) {
                 attack(player1, player2, $player2HpDisplay);
