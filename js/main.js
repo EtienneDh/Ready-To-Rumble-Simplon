@@ -8,6 +8,7 @@
 function Fighter(name, health, damagePerAttack, special, avatar) {
     this.name = name;
     this.health = health;
+    this.maxHealth = health;
     this.damagePerAttack = damagePerAttack;
     this.special = special;
     this.avatar = avatar;
@@ -21,7 +22,7 @@ fightersFunctionSet = function() {
     ryan = new Fighter('Ryan', 110, 21, 'Triple Punch', 'img/Ryan.png');
     xavier = new Fighter('Xavier', 100, 14, 'Troll Attack', 'img/Ryan.png');
     aaron = new Fighter('Aaron', 145, 17, 'Black Mamba', 'img/Aaron.png');
-    totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Ryan.png');
+    totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Totor.png');
     crispy = new Fighter('Crispy', 100, 16, 'Axe Throw', 'img/Crispy.png');
     chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
 
@@ -156,6 +157,13 @@ function attack(attack, defense, domElement) {
 resolve = function(winner, loser) {
     clearTimeout(timer);
     roundNum = 0;
+    $finalMsg = $('<h1 style="color:white"></h1>');
+    $finalMsgAvatar = $('<img>');
+    $finalMsgAvatar.attr('src', winner.avatar);
+    $finalMsg.append(winner.name + ' has won !');
+    $('.overlay').append($finalMsg);
+    $('.overlay').append($finalMsgAvatar);
+    $('.overlay').show();
     // refreshDomElement($outputDiv, winner.name + ' has won !');
 };
 
@@ -228,6 +236,17 @@ function round() {
         }
         resolve(winner, loser);
         return;
+    }
+    if (player1.health <= (player1.maxHealth)/2) {
+      var src = player1.avatar.split('.');
+      src = src[0] + '-dmg.' + src[1];
+      $player1ADisplay.attr('src', src);
+    }
+
+    if (player2.health <= (player2.maxHealth)/2) {
+      var src = player2.avatar.split('.');
+      src = src[0] + '-dmg.' + src[1];
+      $player2ADisplay.attr('src', src);
     }
 
     var roundFight = function() {
