@@ -1,7 +1,9 @@
 
 
 /*************************** General Settings *********************************/
-
+h1, h2 {
+  font-family: 'Bangers', cursive;
+}
 
 /******************************************************************************/
 
@@ -118,11 +120,11 @@ select {
 /* Overlay */
 
 .overlay {
-  width: 90vw;
-  height: 80vh;
+  width: 70vw;
+  height: 70vh;
   position:fixed;
-  top: 10vh;
-  left: 5vw;
+  top: 15vh;
+  left: 15vw;
   background-color: rgba(0, 0, 0, 0.6);
   text-align: center;
 }

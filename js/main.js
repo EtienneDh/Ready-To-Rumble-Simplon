@@ -171,6 +171,7 @@ function attack(attack, defense, domElement) {
 // Resolve game
 resolve = function(winner, loser) {
     clearTimeout(timer);
+    $('.overlay').empty();
     roundNum = 0;
     $finalMsg = $('<h1 style="color:white"></h1>');
     $finalMsgAvatar = $('<img>');
