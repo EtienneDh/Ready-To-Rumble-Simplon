@@ -63,23 +63,36 @@ select {
 
 .middle h4 {
   font-size: 1.5em;
-  color: red;
+}
+
+/* Buttons + player infos*/
+
+#player1-hp, #player2-hp, .fight {
+  color: #fff;
+  font-weight: bold;
+  background-color: red;
+  border: 1px solid red;
+}
+
+#player1-hp, #player2-hp {
+  padding: 2px 0;
 }
 
 .fight {
-  color: red;
   padding: 15px 10px;
   border: 2px solid red;
   transition-property: color;
-  transition-duration: 2s;
-  transition-delay: 0;
-  transition-timing-function:linear;
+  transition-property: background-color;
+  transition-duration: 1s;
   cursor: pointer;
 }
 
 .fight:hover {
-  color: darkred;
+  color: red;
+  background-color: #fff;
 }
+
+/* /Buttons + player infos*/
 
 /*Output div*/
 
@@ -93,4 +106,15 @@ select {
 
 #hitdmg {
   color: red;
+}
+
+/* Overlay */
+
+.overlay {
+  width: 90vw;
+  height: 80vh;
+  position:fixed;
+  top: 10vh;
+  left: 5vw;
+  background-color: rgba(0, 0, 0, 0.6);
 }

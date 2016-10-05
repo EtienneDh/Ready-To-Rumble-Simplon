@@ -18,7 +18,7 @@ function Fighter(name, health, damagePerAttack, special, avatar) {
 
 // Set fighters
 fightersFunctionSet = function() {
-    ryan = new Fighter('Ryan', 110, 24, 'Triple Punch', 'img/Ryan.png');
+    ryan = new Fighter('Ryan', 110, 21, 'Triple Punch', 'img/Ryan.png');
     xavier = new Fighter('Xavier', 100, 14, 'Troll Attack', 'img/Ryan.png');
     aaron = new Fighter('Aaron', 145, 17, 'Black Mamba', 'img/Aaron.png');
     totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Ryan.png');
@@ -31,7 +31,7 @@ fightersFunctionSet = function() {
 // round global var
 roundNum = 0;
 // printMsg container
-txt= '';
+txt = '';
 
 /***************************** /DATA FUNCTIONS ********************************/
 
@@ -68,26 +68,12 @@ domElementsFunctionSet = function() {
 /****************************** GAME FUNCTIONS ********************************/
 /******************************************************************************/
 
-
-
-// Interface builder & refresher
-refreshDomElement = function(domElement, modification) {
-    return domElement.text(modification);
-};
-
-// Compute dmg and trigger printMsg
-function attack(attack, defense, domElement) {
-    var minDmg = Math.floor(attack.damagePerAttack * 0.85);
-    var dmg = randomIntFromInterval(minDmg, attack.damagePerAttack);
-    defense.health -= dmg;
-    refreshDomElement(domElement, defense.health);
-    txt = printMsg(attack, defense, dmg);
-    return txt;
-}
+/* Tools functions */
 
 // Print result of rounds
-printMsg = function(attacker, defenser, dmg) {
-    return attacker.name + ' hits ' + defenser.name + ' for ' + "<span id='hitdmg'>" + dmg + '</span>' + " damages!";
+printMsg = function(attacker, defenser, dmg, optionalMsg) {
+    optionalMsg = optionalMsg || '';
+    return attacker.name + ' hits ' + defenser.name + ' for ' + "<span id='hitdmg'>" + dmg + '</span>' + " damages!" + optionalMsg;
 };
 
 // Keep $outputDiv at bottom
@@ -96,17 +82,19 @@ stickToBottom = function() {
     element.scrollTop = element.scrollHeight;
 };
 
-// Resolve game
-resolve = function(winner) {
-    clearTimeout(timer);
-    roundNum = 0;
-    alert(winner.name + ' has won !!');
-};
-
 // Get a random number from interval
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+/* /Tools functions */
+
+/* Interface functions */
+
+// Interface builder & refresher
+refreshDomElement = function(domElement, modification) {
+    return domElement.text(modification);
+};
 
 // Generate list of playable fighters
 function fightersList(fightersArray) {
@@ -140,6 +128,35 @@ windowBuilder = function() {
     $('.output').append($outputDiv);
 
     fightersList(fightersArray.sort());
+};
+
+/* /Interface functions */
+
+
+// Compute dmg and trigger printMsg
+function attack(attack, defense, domElement) {
+  var optionalMsg = '';
+    // Define min dmg & get random number between min & max
+    var minDmg = Math.floor(attack.damagePerAttack * 0.75);
+    var dmg = randomIntFromInterval(minDmg, attack.damagePerAttack);
+    // Random crits
+    var crit = randomIntFromInterval(1, 10);
+    if (crit === 1) {
+        dmg *= 3;
+        optionalMsg = ' Critical Hit !!';
+    }
+    defense.health -= dmg;
+
+    refreshDomElement(domElement, 'HP: ' + defense.health);
+    txt = printMsg(attack, defense, dmg, optionalMsg);
+    return txt;
+}
+
+// Resolve game
+resolve = function(winner, loser) {
+    clearTimeout(timer);
+    roundNum = 0;
+    // refreshDomElement($outputDiv, winner.name + ' has won !');
 };
 
 /***************************** /GAME FUNCTIONS ********************************/
@@ -201,8 +218,15 @@ function round() {
     // Check for players life
     if (player1.health <= 0 || player2.health <= 0) {
         var winner;
-        player1.health <= 0 ? winner = player2 : winner = player1;
-        resolve(winner);
+        var loser;
+        if(player1.health <= 0) {
+          winner = player2;
+          loser = player1;
+        } else {
+          winner = player1;
+          loser = player2;
+        }
+        resolve(winner, loser);
         return;
     }
 
@@ -211,14 +235,18 @@ function round() {
         if (roundNum % 2 === 0) {
             if (player1.hasOwnProperty('start')) {
                 attack(player1, player2, $player2HpDisplay);
+                $('#player2-avatar').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
             } else {
                 attack(player2, player1, $player1HpDisplay);
+                $('#player1-avatar').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
             }
         } else {
             if (player1.hasOwnProperty('start')) {
                 attack(player2, player1, $player1HpDisplay);
+                $('#player1-avatar').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
             } else {
                 attack(player1, player2, $player2HpDisplay);
+                $('#player2-avatar').fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
             }
         }
         $outputDiv.append('<br>' + txt);
@@ -241,4 +269,6 @@ $(document).ready(function() {
     fightersFunctionSet();
     // Build Game Interface
     windowBuilder();
+    // hide Overlay
+    $('.overlay').hide();
 });
