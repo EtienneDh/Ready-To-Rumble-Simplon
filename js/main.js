@@ -39,6 +39,8 @@ var hit0 = new Audio('sound/hit0.wav');
 var hit1 = new Audio('sound/hit1.wav');
 var hit2 = new Audio('sound/hit2.wav');
 
+var finalSound = new Audio('sound/final.wav');
+
 hitEffects = [ hit0, hit1, hit2];
 
 /***************************** /DATA FUNCTIONS ********************************/
@@ -176,7 +178,8 @@ resolve = function(winner, loser) {
     $finalMsg.append(winner.name + ' has won !');
     $('.overlay').append($finalMsg);
     $('.overlay').append($finalMsgAvatar);
-    $('.overlay').show(1000).delay(3000).hide(1000);
+    finalSound.play();
+    $('.overlay').show(1000).delay(4000).hide(1000);
 };
 
 /***************************** /GAME FUNCTIONS ********************************/
