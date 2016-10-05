@@ -92,6 +92,13 @@ select {
   background-color: #fff;
 }
 
+.blue {
+  color: blue;
+}
+.red {
+  color: red;
+}
+
 /* /Buttons + player infos*/
 
 /*Output div*/

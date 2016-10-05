@@ -34,6 +34,13 @@ roundNum = 0;
 // printMsg container
 txt = '';
 
+// Sounds
+var hit0 = new Audio('sound/hit0.wav');
+var hit1 = new Audio('sound/hit1.wav');
+var hit2 = new Audio('sound/hit2.wav');
+
+hitEffects = [ hit0, hit1, hit2];
+
 /***************************** /DATA FUNCTIONS ********************************/
 
 /******************************************************************************/
@@ -74,7 +81,11 @@ domElementsFunctionSet = function() {
 // Print result of rounds
 printMsg = function(attacker, defenser, dmg, optionalMsg) {
     optionalMsg = optionalMsg || '';
-    return attacker.name + ' hits ' + defenser.name + ' for ' + "<span id='hitdmg'>" + dmg + '</span>' + " damages!" + optionalMsg;
+    if (roundNum % 2 === 0) {
+        return "<span class='blue'>" + attacker.name + "</span> hits " + "<span class='red'>" + defenser.name + "</span> for <span id='hitdmg'>" + dmg + "</span> damages!" + optionalMsg;
+    } else {
+        return "<span class='red'>" + attacker.name + "</span> hits " + "<span class='blue'>" + defenser.name + "</span> for <span id='hitdmg'>" + dmg + "</span> damages!" + optionalMsg;
+    }
 };
 
 // Keep $outputDiv at bottom
@@ -136,7 +147,7 @@ windowBuilder = function() {
 
 // Compute dmg and trigger printMsg
 function attack(attack, defense, domElement) {
-  var optionalMsg = '';
+    var optionalMsg = '';
     // Define min dmg & get random number between min & max
     var minDmg = Math.floor(attack.damagePerAttack * 0.75);
     var dmg = randomIntFromInterval(minDmg, attack.damagePerAttack);
@@ -149,6 +160,8 @@ function attack(attack, defense, domElement) {
     defense.health -= dmg;
 
     refreshDomElement(domElement, 'HP: ' + defense.health);
+    var sound = hitEffects[randomIntFromInterval(0, 2)];
+    sound.play();
     txt = printMsg(attack, defense, dmg, optionalMsg);
     return txt;
 }
@@ -163,8 +176,7 @@ resolve = function(winner, loser) {
     $finalMsg.append(winner.name + ' has won !');
     $('.overlay').append($finalMsg);
     $('.overlay').append($finalMsgAvatar);
-    $('.overlay').show();
-    // refreshDomElement($outputDiv, winner.name + ' has won !');
+    $('.overlay').show(1000).delay(3000).hide(1000);
 };
 
 /***************************** /GAME FUNCTIONS ********************************/
@@ -203,50 +215,51 @@ function run() {
 
 // The function Fight initiates the game
 function fight() {
-    alert('Fight Motherfucker!');
     // Update interface with fighters' name and hp's
     refreshDomElement($outputDiv, playersArray[0].name + ' and ' + playersArray[1].name + ' are going to fight !');
 
+    // Choose first attacker and add new property on chosen player
     var first = randomIntFromInterval(1, 2);
     player1 = playersArray[0];
     player2 = playersArray[1];
 
-    // Choose first attacker and add new property on chosen player
     if (first === 1) {
         player1.start = 1;
     } else {
         player2.start = 1;
     }
+
     // Round function
     round();
 }
 
 // The function Round() resolves each fighting round, print results and call itself with a delay. Stop when 1 players dies
 function round() {
-    // Check for players life
+    // Check for players life, if <= 0, fight ends
     if (player1.health <= 0 || player2.health <= 0) {
         var winner;
         var loser;
-        if(player1.health <= 0) {
-          winner = player2;
-          loser = player1;
+        if (player1.health <= 0) {
+            winner = player2;
+            loser = player1;
         } else {
-          winner = player1;
-          loser = player2;
+            winner = player1;
+            loser = player2;
         }
         resolve(winner, loser);
         return;
     }
-    if (player1.health <= (player1.maxHealth)/2) {
-      var src = player1.avatar.split('.');
-      src = src[0] + '-dmg.' + src[1];
-      $player1ADisplay.attr('src', src);
+    // Display damaged avatar if player health < 50 %
+    if (player1.health <= (player1.maxHealth) / 2) {
+        var src = player1.avatar.split('.');
+        src = src[0] + '-dmg.' + src[1];
+        $player1ADisplay.attr('src', src);
     }
 
-    if (player2.health <= (player2.maxHealth)/2) {
-      var src = player2.avatar.split('.');
-      src = src[0] + '-dmg.' + src[1];
-      $player2ADisplay.attr('src', src);
+    if (player2.health <= (player2.maxHealth) / 2) {
+        var src = player2.avatar.split('.');
+        src = src[0] + '-dmg.' + src[1];
+        $player2ADisplay.attr('src', src);
     }
 
     var roundFight = function() {
