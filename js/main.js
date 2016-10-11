@@ -43,6 +43,9 @@ var finalSound = new Audio('sound/final.wav');
 
 hitEffects = [ hit0, hit1, hit2];
 
+// Images
+var logo = $('<img class="logo-overlay" src="img/readytorumble-small.jpg" alt="logo Rdy to Rumble!" />');
+
 /***************************** /DATA FUNCTIONS ********************************/
 
 /******************************************************************************/
@@ -56,8 +59,8 @@ domElementsFunctionSet = function() {
     $player2Div = $('<div id="player2-Div"></div>');
 
     /* Elements for players' Name, HPs & Avatars */
-    $player1NameDisplay = $('<h2 id="player1-name"></h2>');
-    $player2NameDisplay = $('<h2 id="player2-name"></h2>');
+    $player1NameDisplay = $('<h2 id="player1-name" class="player"></h2>');
+    $player2NameDisplay = $('<h2 id="player2-name" class="player"></h2>');
 
     $player1HpDisplay = $('<p id="player1-hp"></p>');
     $player2HpDisplay = $('<p id="player2-hp"></p>');
@@ -84,9 +87,9 @@ domElementsFunctionSet = function() {
 printMsg = function(attacker, defenser, dmg, optionalMsg) {
     optionalMsg = optionalMsg || '';
     if (roundNum % 2 === 0) {
-        return "<span class='blue'>" + attacker.name + "</span> hits " + "<span class='red'>" + defenser.name + "</span> for <span id='hitdmg'>" + dmg + "</span> damages!" + optionalMsg;
+        return "<span class='orange'>" + attacker.name + "</span> hits " + "<span class='red'>" + defenser.name + "</span> for <span id='hitdmg'>" + dmg + "</span> damages!" + optionalMsg;
     } else {
-        return "<span class='red'>" + attacker.name + "</span> hits " + "<span class='blue'>" + defenser.name + "</span> for <span id='hitdmg'>" + dmg + "</span> damages!" + optionalMsg;
+        return "<span class='red'>" + attacker.name + "</span> hits " + "<span class='orange'>" + defenser.name + "</span> for <span id='hitdmg'>" + dmg + "</span> damages!" + optionalMsg;
     }
 };
 
@@ -149,25 +152,51 @@ windowBuilder = function() {
 
 // Compute dmg and trigger printMsg
 function attack(attack, defense, domElement) {
-    var optionalMsg = '';
-    // Define min dmg & get random number between min & max
+    // Define var
+    var attckCrit;
+    var i = 0;
+    var max = 1;
+    // Define min dmg
     var minDmg = Math.floor(attack.damagePerAttack * 0.75);
-    var dmg = randomIntFromInterval(minDmg, attack.damagePerAttack);
-    // Random crits
-    var crit = randomIntFromInterval(1, 10);
-    if (crit === 1) {
-        dmg *= 3;
-        optionalMsg = ' Critical Hit !!';
+    // Random chance to fail in def
+    var defFail = randomIntFromInterval(1, 8);
+
+    // initiate fight loop
+    for(i ; i < max; i++) {
+      // Def var
+      var optionalMsg = '';
+      // this flag tracks defense failure
+      var defFlag = false;
+      // Check for failure in def
+      if (defFail === 1) {
+          defFlag = true;
+          // failure in def makes attacker hits twice
+          max = 2;
+          // Add a lil' bonus to min damages
+          minDmg *= 1.1;
+          minDmg = Math.floor(minDmg);
+          optionalMsg += ' Defense Fail !!';
+          var sound = hitEffects[randomIntFromInterval(0, 2)];
+          sound.play();
+      }
+      // Calc damages
+      var dmg = randomIntFromInterval(minDmg, attack.damagePerAttack);
+      // Check for crit in Attack, in case of def failure, more chance to crit
+      defFlag === true ? attckCrit = randomIntFromInterval(1, 3) : attckCrit = randomIntFromInterval(1, 10);
+      if (attckCrit === 1) {
+          dmg *= 3;
+          optionalMsg += ' Critical Hit !!';
+      }
+      // Remove damage from defenser's health
+      defense.health -= dmg;
+      // Display new Hp to the screen
+      refreshDomElement(domElement, 'HP: ' + defense.health);
+      // Pick up random hit sound and plays it
+      var sound = hitEffects[randomIntFromInterval(0, 2)];
+      sound.play();
+      // Format message
+      txt += printMsg(attack, defense, dmg, optionalMsg) + ' ';
     }
-    // Remove damage from defenser's health
-    defense.health -= dmg;
-    // Display new Hp to the screen
-    refreshDomElement(domElement, 'HP: ' + defense.health);
-    // Pick up random hit sound and play it
-    var sound = hitEffects[randomIntFromInterval(0, 2)];
-    sound.play();
-    // Format message
-    txt = printMsg(attack, defense, dmg, optionalMsg);
     return txt;
 }
 
@@ -185,6 +214,8 @@ resolve = function(winner, loser) {
     // Append msg & avatar to overlay
     $('.overlay').append($finalMsg);
     $('.overlay').append($finalMsgAvatar);
+    $('.overlay').append('<br>');
+    $('.overlay').append(logo);
     // End fight music
     finalSound.play();
     // Display overlay
@@ -280,6 +311,7 @@ function round() {
 
     var roundFight = function() {
         // Check round number to define attackers/ defenser. attack() resolves each turn, then avatar blinks
+        txt = '';
         if (roundNum % 2 === 0) {
             if (player1.hasOwnProperty('start')) {
                 attack(player1, player2, $player2HpDisplay);
@@ -304,7 +336,7 @@ function round() {
         // call round
         round();
     };
-    timer = setTimeout(roundFight, 2500);
+    timer = setTimeout(roundFight, 2200);
 }
 
 /**************************** /Main Program ***********************************/
