@@ -27,7 +27,7 @@ fightersFunctionSet = function() {
     chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
     shinuwa = new Fighter('Shinuwa', 95, 2, 'Shinuwa Attack', 'img/Shinuwa.png');
     // Store fighters into array
-    fightersArray = [ryan, aaron, totor, chuck, xavier, crispy];
+    fightersArray = [ryan, aaron, totor, chuck, xavier, crispy, shinuwa];
 };
 
 // round global var
