@@ -25,6 +25,7 @@ fightersFunctionSet = function() {
     totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Totor.png');
     crispy = new Fighter('Crispy', 100, 16, 'Axe Throw', 'img/Crispy.png');
     chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
+    shinuwa = new Fighter('Shinuwa', 95, 2, 'Shinuwa Attack', 'img/Shinuwa.png');
     // Store fighters into array
     fightersArray = [ryan, aaron, totor, chuck, xavier, crispy];
 };
@@ -83,7 +84,7 @@ domElementsFunctionSet = function() {
 
 /* Tools functions */
 
-// Print result of rounds
+// Format result of rounds
 printMsg = function(attacker, defenser, dmg, optionalMsg) {
     optionalMsg = optionalMsg || '';
     if (roundNum % 2 === 0) {
@@ -343,12 +344,12 @@ function round() {
 
 // On load
 $(document).ready(function() {
+    // hide Overlay
+    $('.overlay').hide();
     // Load Dom Elements data
     domElementsFunctionSet();
     // Load Fighters data
     fightersFunctionSet();
     // Build Game Interface
     windowBuilder();
-    // hide Overlay
-    $('.overlay').hide();
 });
