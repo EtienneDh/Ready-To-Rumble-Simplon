@@ -22,12 +22,13 @@ fightersFunctionSet = function() {
     ryan = new Fighter('Ryan', 110, 21, 'Triple Punch', 'img/Ryan.png');
     xavier = new Fighter('Xavier', 100, 14, 'Troll Attack', 'img/Ryan.png');
     aaron = new Fighter('Aaron', 120, 17, 'Black Mamba', 'img/Aaron.png');
-    totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Totor.png');
+    totor = new Fighter('Totor', 90, 14, 'Eq95uarissage', 'img/Totor.png');
     crispy = new Fighter('Crispy', 100, 16, 'Axe Throw', 'img/Crispy.png');
     chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
-    shinuwa = new Fighter('Shinuwa', 95, 2, 'Shinuwa Attack', 'img/Shinuwa.png');
+    shinuwa = new Fighter('Shinuwa', 95, 15, 'Shinuwa Attack', 'img/Shinuwa.png');
+    jayce = new Fighter('Jayce', 80, 16, ' Fringuée comme un sac', 'img/Jayce.png');
     // Store fighters into array
-    fightersArray = [ryan, aaron, totor, chuck, xavier, crispy, shinuwa];
+    fightersArray = [ryan, aaron, totor, chuck, xavier, crispy, shinuwa, jayce];
 };
 
 // round global var
