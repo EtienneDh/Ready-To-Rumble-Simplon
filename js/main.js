@@ -20,15 +20,19 @@ function Fighter(name, health, damagePerAttack, special, avatar) {
 // Set fighters
 fightersFunctionSet = function() {
     ryan = new Fighter('Ryan', 110, 21, 'Triple Punch', 'img/Ryan.png');
-    xavier = new Fighter('Xavier', 100, 14, 'Troll Attack', 'img/Ryan.png');
     aaron = new Fighter('Aaron', 120, 17, 'Black Mamba', 'img/Aaron.png');
     totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Totor.png');
     crispy = new Fighter('Crispy', 100, 16, 'Axe Throw', 'img/Crispy.png');
-    chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
     shinuwa = new Fighter('Shinuwa', 95, 15, 'Shinuwa Attack', 'img/Shinuwa.png');
     jayce = new Fighter('Jayce', 80, 16, ' Fringuée comme un sac', 'img/Jayce.png');
+    isa = new Fighter('Isa', 85, 14, ' Mommy', 'img/Isa.png');
+    binouse = new Fighter('Binouse', 65, 24, ' Beer Throw', 'img/Binouse.png');
+    jean = new Fighter('Jean', 95, 16, ' Bâtard du Nord', 'img/Jean.png');
+    thomas = new Fighter('Thomas', 105, 18, ' Blietzkrig', 'img/Thomas.png');
+    // chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
+    // xavier = new Fighter('Xavier', 100, 14, 'Troll Attack', 'img/Ryan.png');
     // Store fighters into array
-    fightersArray = [ryan, aaron, totor, chuck, xavier, crispy, shinuwa, jayce];
+    fightersArray = [ryan, aaron, totor, crispy, shinuwa, jayce, isa, binouse, jean, thomas];
 };
 
 // round global var
@@ -72,7 +76,7 @@ domElementsFunctionSet = function() {
 
     /* Misc */
     $outputDiv = $('<div id="outputDiv"></div>'); // Output battle info Div
-    $versusDiv = $('<div class="middle"><h3>VS</h3><h4 class="fight" onclick="fight()">FIGHT !</h4>'); // Middle Div
+    $versusDiv = $('<div class="middle"><h3>VS</h3><img src="img/testgifrumble.gif" alt="Fight" onclick="fight();" class="fight"/>'); // Middle Div
 };
 
 

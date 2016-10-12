@@ -106,7 +106,7 @@ button, select {
 
 /* Buttons + player infos*/
 
-#player1-hp, #player2-hp, .fight {
+#player1-hp, #player2-hp {
   color: #fff;
   font-weight: bold;
   background-color: red;
@@ -118,19 +118,10 @@ button, select {
 }
 
 .fight {
-  padding: 15px 10px;
-  border: 2px solid red;
-  transition-property: color;
-  transition-property: background-color;
-  transition-duration: 1s;
+  max-width: 180px;
+  max-height: 100px;
   cursor: pointer;
 }
-
-.fight:hover {
-  color: red;
-  background-color: #fff;
-}
-
 .orange {
   color: #FEDA00;
 }
