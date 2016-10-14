@@ -104,6 +104,13 @@ button, select {
   font-size: 1.5em;
 }
 
+.vs {
+  max-width: 110px;
+  max-height: 60px;
+  margin-left: 1.65em;
+  margin-bottom: 1.5em;
+}
+
 /* Buttons + player infos*/
 
 #player1-hp, #player2-hp {

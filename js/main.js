@@ -21,18 +21,19 @@ function Fighter(name, health, damagePerAttack, special, avatar) {
 fightersFunctionSet = function() {
     ryan = new Fighter('Ryan', 110, 21, 'Triple Punch', 'img/Ryan.png');
     aaron = new Fighter('Aaron', 120, 17, 'Black Mamba', 'img/Aaron.png');
-    totor = new Fighter('Totor', 90, 14, 'Equarissage', 'img/Totor.png');
-    crispy = new Fighter('Crispy', 100, 16, 'Axe Throw', 'img/Crispy.png');
+    totor = new Fighter('Totor', 90, 15, 'Equarissage', 'img/Totor.png');
+    crispy = new Fighter('Crispy', 100, 17, 'Axe Throw', 'img/Crispy.png');
     shinuwa = new Fighter('Shinuwa', 95, 15, 'Shinuwa Attack', 'img/Shinuwa.png');
     jayce = new Fighter('Jayce', 80, 16, ' Fringuée comme un sac', 'img/Jayce.png');
-    isa = new Fighter('Isa', 85, 14, ' Mommy', 'img/Isa.png');
-    binouse = new Fighter('Binouse', 65, 24, ' Beer Throw', 'img/Binouse.png');
+    isa = new Fighter('Isa', 85, 15, ' Mommy', 'img/Isa.png');
+    binouse = new Fighter('Binouse', 60, 25, ' Beer Throw', 'img/Binouse.png');
     jean = new Fighter('Jean', 95, 16, ' Bâtard du Nord', 'img/Jean.png');
     thomas = new Fighter('Thomas', 105, 18, ' Blietzkrig', 'img/Thomas.png');
+    youssef = new Fighter('Youssef', 100, 15, ' Blietzkrig', 'img/Youssef.png');
     // chuck = new Fighter('Chuck Norris', 9999, 99, 'Round House Kick', 'img/Ryan.png');
     // xavier = new Fighter('Xavier', 100, 14, 'Troll Attack', 'img/Ryan.png');
     // Store fighters into array
-    fightersArray = [ryan, aaron, totor, crispy, shinuwa, jayce, isa, binouse, jean, thomas];
+    fightersArray = [ryan, aaron, totor, crispy, shinuwa, jayce, isa, binouse, jean, thomas, youssef];
 };
 
 // round global var
@@ -51,6 +52,7 @@ hitEffects = [ hit0, hit1, hit2];
 
 // Images
 var logo = $('<img class="logo-overlay" src="img/readytorumble-small.jpg" alt="logo Rdy to Rumble!" />');
+var vs = $('<img class="" src="img/vs.png" alt="VS" />');
 
 /***************************** /DATA FUNCTIONS ********************************/
 
@@ -76,7 +78,7 @@ domElementsFunctionSet = function() {
 
     /* Misc */
     $outputDiv = $('<div id="outputDiv"></div>'); // Output battle info Div
-    $versusDiv = $('<div class="middle"><h3>VS</h3><img src="img/testgifrumble.gif" alt="Fight" onclick="fight();" class="fight"/>'); // Middle Div
+    $versusDiv = $('<div class="middle"><img class="vs" src="img/vs.png" alt="VS" /><img src="img/testgifrumble.gif" alt="Fight" onclick="fight();" class="fight"/>'); // Middle Div
 };
 
 
